@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.springframework.stereotype.Service;
 
 import edu.blackjack.enums.GameState;
+import edu.blackjack.exceptions.customs.GameFinishedException;
+import edu.blackjack.exceptions.customs.GameNotFoundException;
 import edu.blackjack.models.Game;
 import edu.blackjack.models.Request.PlayRequest;
 import edu.blackjack.repositories.GameRepository;
@@ -37,14 +39,14 @@ public class GameService {
         // Get the game by its ID
         Game game = gameRepository.findByGameId(playRequest.getGameId()).block();
 
-        // If the game is not found, return null
+        // If the game is not found, throw an exception
         if (game == null) {
-            return null;
+            return Mono.error(new GameNotFoundException("GameService/updateGame: Error Game with id: " + playRequest.getGameId() + " is null"));
         }
 
         // If the game is already over, return the game
         if (game.getState() != GameState.IN_PROGRESS || game.getState() != GameState.NEW) {
-            return Mono.just(game);
+            return Mono.error(new GameFinishedException("GameService/updateGame: Error Game with id: " + playRequest.getGameId() + " is already finished"));
         }
 
         switch (playRequest.getPlayType()) {
@@ -68,18 +70,20 @@ public class GameService {
                 return Mono.just(game);
 
             default:
-                return Mono.error(new IllegalArgumentException("Invalid play type: " + playRequest.getPlayType()));
+                return Mono.error(new IllegalArgumentException("GameService/updateGame: Error Invalid play type: " + playRequest.getPlayType()));
         }
     }
 
     // Get a game by its ID
     public Mono<Game> getGame(String gameId) {
-        return gameRepository.findByGameId(gameId);
+        return gameRepository.findByGameId(gameId)
+        .switchIfEmpty(Mono.error(new GameNotFoundException("GameService/getGame: Error Game not found with id: " + gameId)));
     }
 
     // Delete a game by its ID
     public Mono<Void> deleteGame(String gameId) {
-        return gameRepository.deleteById(gameId);
+        return gameRepository.deleteById(gameId)
+        .switchIfEmpty(Mono.error(new GameNotFoundException("GameService/deleteGame: Error Game not found with id: " + gameId)));
     }
 
 }
