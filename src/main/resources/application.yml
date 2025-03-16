@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: blackjack
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/blackjack_db
+      database: reactive_blackjack
+  r2dbc:
+    url: r2dbc:mysql://localhost:3306/blackjack_db
+    username: root
+    password: sasa
