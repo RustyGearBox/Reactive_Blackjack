@@ -1,4 +1,4 @@
-package edu.blackjack.models.Request;
+package edu.blackjack.models.Request.Game;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,9 +11,8 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PlayRequest {
+public class CreateRequest {
     
-    private String gameId;
-    private String playType;
+    private String playerName;
 
 }
