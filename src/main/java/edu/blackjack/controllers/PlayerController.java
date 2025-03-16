@@ -1,6 +1,7 @@
 package edu.blackjack.controllers;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,27 +31,27 @@ public class PlayerController {
     // Create a new player with the given name
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<Player> createPlayer(@RequestBody PlayerCreateRequest playerCreateRequest) {
-        return playerService.createPlayer(playerCreateRequest);
+    public ResponseEntity<Mono<Player>> createPlayer(@RequestBody PlayerCreateRequest playerCreateRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(playerService.createPlayer(playerCreateRequest));
     }
 
     // Get a player by its name
     @GetMapping
-    public Mono<Player> getPlayer(@RequestParam PlayerFindRequest playerFindRequest) {
-        return playerService.getPlayer(playerFindRequest);
+    public ResponseEntity<Mono<Player>> getPlayer(@RequestParam PlayerFindRequest playerFindRequest) {
+        return ResponseEntity.ok(playerService.getPlayer(playerFindRequest));
     }
     
     // Delete a player by its name
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Mono<Void> deletePlayer(@RequestParam PlayerDeleteRequest playerDeleteRequest) {
-        return playerService.deletePlayer(playerDeleteRequest);
+    public ResponseEntity<Mono<Void>> deletePlayer(@RequestParam PlayerDeleteRequest playerDeleteRequest) {
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(playerService.deletePlayer(playerDeleteRequest));
     }
 
     // Update a player by its name
     @PutMapping
-    public Mono<Player> updatePlayer(@RequestBody PlayerUpdateRequest playerUpdateRequest) {
-        return playerService.updatePlayer(playerUpdateRequest);
+    public ResponseEntity<Mono<Player>> updatePlayer(@RequestBody PlayerUpdateRequest playerUpdateRequest) {
+        return ResponseEntity.ok(playerService.updatePlayer(playerUpdateRequest));
     }
 
     // Get all players
