@@ -67,6 +67,7 @@ public class Game {
         int playerHandValue = getHandValue(playerHand);
         int dealerHandValue = getHandValue(dealerHand);
 
+        //Interger.compare returns -1 if the first value is less than the second, 0 if they are equal and 1 if the first value is greater than the second
         return switch (Integer.compare(playerHandValue, dealerHandValue)) {
             case 1 -> playerHandValue > 21 ? GameResult.DEFEAT : GameResult.VICTORY;
             case -1 -> dealerHandValue > 21 ? GameResult.VICTORY : GameResult.DEFEAT;
