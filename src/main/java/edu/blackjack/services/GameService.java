@@ -8,7 +8,7 @@ import edu.blackjack.enums.GameResult;
 import edu.blackjack.enums.GameState;
 import edu.blackjack.exceptions.customs.GameNotFoundException;
 import edu.blackjack.models.Game;
-import edu.blackjack.models.Request.PlayRequest;
+import edu.blackjack.models.Request.Game.PlayRequest;
 import edu.blackjack.repositories.GameRepository;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
@@ -48,17 +48,16 @@ public class GameService {
                 switch (playRequest.getPlayType()) {
                     
                     // If the player wants to hit, add a card to the player's hand
-                    case "HIT":
+                    case HIT:
                         game.getPlayerHand().add(game.getDeck().remove(0));
                         if (game.getHandValue(game.getPlayerHand()) > 21) {
-
                             game.setState(GameState.FINISHED);
                             game.setResult(GameResult.DEFEAT);
                         }
                         break;
 
                     // If the player wants to stand, add cards to the dealer's hand until the dealer's hand value is 17 or higher
-                    case "STAND":
+                    case STAND:
                         while (game.getHandValue(game.getDealerHand()) < 17) {
                             game.getDealerHand().add(game.getDeck().remove(0));
                         }
