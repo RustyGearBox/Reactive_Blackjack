@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
 
+import edu.blackjack.enums.GameResult;
 import edu.blackjack.enums.GameState;
 import edu.blackjack.exceptions.customs.GameNotFoundException;
 import edu.blackjack.models.Game;
@@ -28,7 +29,7 @@ public class GameService {
                 .playerHand(new ArrayList<>())
                 .dealerHand(new ArrayList<>())
                 .state(GameState.NEW)
-                .result("Undetermined")
+                .result(GameResult.UNDEFINED)
                 .build());
     }
 
@@ -50,8 +51,9 @@ public class GameService {
                     case "HIT":
                         game.getPlayerHand().add(game.getDeck().remove(0));
                         if (game.getHandValue(game.getPlayerHand()) > 21) {
+
                             game.setState(GameState.FINISHED);
-                            game.setResult("Dealer wins");
+                            game.setResult(GameResult.DEFEAT);
                         }
                         break;
 

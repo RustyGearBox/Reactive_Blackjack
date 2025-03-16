@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import edu.blackjack.exceptions.customs.GameFinishedException;
 import edu.blackjack.exceptions.customs.GameNotFoundException;
+import edu.blackjack.exceptions.customs.GameResultNotFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -18,6 +19,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(GameNotFoundException.class)
     public ResponseEntity<String> handleGameNotFoundException(GameNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(GameResultNotFoundException.class)
+    public ResponseEntity<String> handleGameResultNotFoundException(GameResultNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 

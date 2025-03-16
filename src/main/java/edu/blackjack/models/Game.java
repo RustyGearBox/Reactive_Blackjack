@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 
 import edu.blackjack.enums.Figures;
+import edu.blackjack.enums.GameResult;
 import edu.blackjack.enums.GameState;
 import edu.blackjack.enums.Values;
 import lombok.AllArgsConstructor;
@@ -22,14 +23,14 @@ import lombok.Setter;
 public class Game {
     
     @Id
-    private String id;
+    private String gameId;
     private Long createdAt;
     private String playerName;
     private List<Card> deck;
     private List<Card> playerHand;
     private List<Card> dealerHand;
     private GameState state;
-    private String result;
+    private GameResult result;
 
     //Generates a deck of cards
     public static List<Card> createDeck() {
@@ -62,14 +63,14 @@ public class Game {
     }
 
     //Determines the winner of the game
-    public String getWinner(List<Card> playerHand, List<Card> dealerHand) {
+    public GameResult getWinner(List<Card> playerHand, List<Card> dealerHand) {
         int playerHandValue = getHandValue(playerHand);
         int dealerHandValue = getHandValue(dealerHand);
 
         return switch (Integer.compare(playerHandValue, dealerHandValue)) {
-            case 1 -> playerHandValue > 21 ? "Dealer wins!" : "Player wins!";
-            case -1 -> dealerHandValue > 21 ? "Player wins!" : "Dealer wins!";
-            default -> "It's a tie!";
+            case 1 -> playerHandValue > 21 ? GameResult.DEFEAT : GameResult.VICTORY;
+            case -1 -> dealerHandValue > 21 ? GameResult.VICTORY : GameResult.DEFEAT;
+            default -> GameResult.DRAW;
         };
     }
 
