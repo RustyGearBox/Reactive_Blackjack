@@ -30,23 +30,23 @@ public class GameController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<Game> createGame(@RequestBody GameCreateRequest createRequest) {
-        return gameService.createGame(createRequest.getPlayerName());
+    public Mono<Game> createGame(@RequestBody GameCreateRequest gameCreateRequest) {
+        return gameService.createGame(gameCreateRequest);
     }
     
     @GetMapping
-    public Mono<Game> getGameById(@RequestBody GameFindRequest findRequest) {
-        return gameService.getGame(findRequest.getGameId());
+    public Mono<Game> getGameById(@RequestBody GameFindRequest gameFindRequest) {
+        return gameService.getGame(gameFindRequest);
     }
 
     @PutMapping
-    public Mono<Game> updateGame(@RequestBody GameUpdateRequest updateRequest) {
-        return gameService.updateGame(updateRequest);
+    public Mono<Game> updateGame(@RequestBody GameUpdateRequest gameUpdateRequest) {
+        return gameService.updateGame(gameUpdateRequest);
     }
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Mono<Void> deleteGame(@RequestBody GameDeleteRequest deleteRequest) {
-        return gameService.deleteGame(deleteRequest.getGameId());
+    public Mono<Void> deleteGame(@RequestBody GameDeleteRequest gameDeleteRequest) {
+        return gameService.deleteGame(gameDeleteRequest);
     }
 }
