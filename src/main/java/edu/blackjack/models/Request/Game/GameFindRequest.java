@@ -11,7 +11,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FindRequest {
+public class GameFindRequest {
     
     private String gameId;
 

@@ -8,7 +8,7 @@ import edu.blackjack.enums.GameResult;
 import edu.blackjack.enums.GameState;
 import edu.blackjack.exceptions.customs.GameNotFoundException;
 import edu.blackjack.models.Game;
-import edu.blackjack.models.Request.Game.PlayRequest;
+import edu.blackjack.models.Request.Game.GameUpdateRequest;
 import edu.blackjack.repositories.GameRepository;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
@@ -34,18 +34,18 @@ public class GameService {
     }
 
     // Update a game by its ID
-    public Mono<Game> updateGame(PlayRequest playRequest) {
+    public Mono<Game> updateGame(GameUpdateRequest updateRequest) {
         
         // Get the game by its ID
-        return gameRepository.findByGameId(playRequest.getGameId())
-            .switchIfEmpty(Mono.error(new GameNotFoundException("GameService/updateGame: Error Game not found with id: " + playRequest.getGameId())))
+        return gameRepository.findByGameId(updateRequest.getGameId())
+            .switchIfEmpty(Mono.error(new GameNotFoundException("GameService/updateGame: Error Game not found with id: " + updateRequest.getGameId())))
             .flatMap(game -> {
                 // If the game is already over, return the game
                 if (game.getState() != GameState.IN_PROGRESS && game.getState() != GameState.NEW) {
                     return Mono.just(game);
                 }
 
-                switch (playRequest.getPlayType()) {
+                switch (updateRequest.getPlayType()) {
                     
                     // If the player wants to hit, add a card to the player's hand
                     case HIT:
@@ -66,7 +66,7 @@ public class GameService {
                         break;
 
                     default:
-                        return Mono.error(new IllegalArgumentException("GameService/updateGame: Error Invalid play type: " + playRequest.getPlayType()));
+                        return Mono.error(new IllegalArgumentException("GameService/updateGame: Error Invalid play type: " + updateRequest.getPlayType()));
                 }
 
                 // Save the updated game

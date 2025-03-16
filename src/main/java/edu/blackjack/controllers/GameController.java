@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.blackjack.models.Game;
-import edu.blackjack.models.Request.Game.CreateRequest;
-import edu.blackjack.models.Request.Game.DeleteRequest;
-import edu.blackjack.models.Request.Game.FindRequest;
-import edu.blackjack.models.Request.Game.PlayRequest;
+import edu.blackjack.models.Request.Game.GameCreateRequest;
+import edu.blackjack.models.Request.Game.GameDeleteRequest;
+import edu.blackjack.models.Request.Game.GameFindRequest;
+import edu.blackjack.models.Request.Game.GameUpdateRequest;
 import edu.blackjack.services.GameService;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
@@ -30,23 +30,23 @@ public class GameController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<Game> createGame(@RequestBody CreateRequest createRequest) {
+    public Mono<Game> createGame(@RequestBody GameCreateRequest createRequest) {
         return gameService.createGame(createRequest.getPlayerName());
     }
     
     @GetMapping
-    public Mono<Game> getGameById(@RequestBody FindRequest findRequest) {
+    public Mono<Game> getGameById(@RequestBody GameFindRequest findRequest) {
         return gameService.getGame(findRequest.getGameId());
     }
 
     @PutMapping
-    public Mono<Game> updateGame(@RequestBody PlayRequest playRequest) {
-        return gameService.updateGame(playRequest);
+    public Mono<Game> updateGame(@RequestBody GameUpdateRequest updateRequest) {
+        return gameService.updateGame(updateRequest);
     }
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Mono<Void> deleteGame(@RequestBody DeleteRequest deleteRequest) {
+    public Mono<Void> deleteGame(@RequestBody GameDeleteRequest deleteRequest) {
         return gameService.deleteGame(deleteRequest.getGameId());
     }
 }

@@ -11,7 +11,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeleteRequest {
+public class GameDeleteRequest {
     
     private String gameId;
 

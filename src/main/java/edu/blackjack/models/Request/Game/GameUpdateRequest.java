@@ -1,5 +1,6 @@
 package edu.blackjack.models.Request.Game;
 
+import edu.blackjack.enums.PlayType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,8 +12,9 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateRequest {
+public class GameUpdateRequest {
     
-    private String playerName;
+    private String gameId;
+    private PlayType playType;
 
 }
