@@ -9,6 +9,7 @@ import edu.blackjack.models.Request.Player.PlayerFindRequest;
 import edu.blackjack.models.Request.Player.PlayerUpdateRequest;
 import edu.blackjack.repositories.PlayerRepository;
 import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -42,8 +43,8 @@ public class PlayerService {
     }
 
     // Get all players
-    public Iterable<Player> getPlayers() {
-        return playerRepository.findAll().toIterable();
+    public Flux<Player> getPlayers() {
+        return playerRepository.findAll();
     }
 
 }

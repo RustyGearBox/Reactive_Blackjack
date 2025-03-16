@@ -15,6 +15,7 @@ import edu.blackjack.models.Request.Player.PlayerFindRequest;
 import edu.blackjack.models.Request.Player.PlayerUpdateRequest;
 import edu.blackjack.services.PlayerService;
 import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -56,8 +57,8 @@ public class PlayerController {
 
     // Get all players
     @GetMapping("/all")
-    public Iterable<Player> getPlayers() {
-        return playerService.getPlayers();
+    public ResponseEntity<Flux<Player>> getPlayers() {
+        return ResponseEntity.ok(playerService.getPlayers());
     }
     
 }
