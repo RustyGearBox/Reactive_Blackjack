@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import edu.blackjack.enums.Figures;
@@ -27,12 +28,19 @@ public class Game {
     
     @Id
     private String gameId;
+    @Column("created_at")
     private Long createdAt;
+    @Column("player_name")
     private String playerName;
+    @Column("deck")
     private List<Card> deck;
+    @Column("player_hand")
     private List<Card> playerHand;
+    @Column("dealer_hand")
     private List<Card> dealerHand;
+    @Column("state")
     private GameState state;
+    @Column("result")
     private GameResult result;
 
     //Generates a deck of cards and shuffles it
