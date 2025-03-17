@@ -3,8 +3,8 @@ package edu.blackjack.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 import edu.blackjack.enums.Figures;
 import edu.blackjack.enums.GameResult;
@@ -21,10 +21,10 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "games")
+@Table(name = "games")
 public class Game {
     
-    @Indexed(unique = true)
+    @Id
     private String gameId;
     private Long createdAt;
     private String playerName;
