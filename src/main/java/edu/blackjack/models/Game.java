@@ -1,6 +1,7 @@
 package edu.blackjack.models;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -34,7 +35,7 @@ public class Game {
     private GameState state;
     private GameResult result;
 
-    //Generates a deck of cards
+    //Generates a deck of cards and shuffles it
     public static List<Card> createDeck() {
         List<Card> deck = new ArrayList<>();
         for (Figures figure : Figures.values()) {
@@ -42,6 +43,7 @@ public class Game {
                 deck.add(new Card(figure, value));
             }
         }
+        Collections.shuffle(deck);
         return deck;
     }
 
