@@ -21,11 +21,16 @@ public class Player {
     @Id
     private String id;
     private String name;
-    private int gamesPlayed;
-    private int victories;
-    private int defeats;
-    private int draws;
-    private int score;
+    @Builder.Default
+    private int gamesPlayed = 0;
+    @Builder.Default
+    private int victories = 0;
+    @Builder.Default
+    private int defeats = 0;
+    @Builder.Default
+    private int draws = 0;
+    @Builder.Default
+    private int score = 0;
     
     //Adds a game result to the player's statistics
     public void addGameResult(Game game) {
