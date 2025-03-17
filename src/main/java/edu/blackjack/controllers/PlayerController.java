@@ -21,8 +21,6 @@ import reactor.core.publisher.Mono;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 @Controller
 @RequiredArgsConstructor
@@ -40,14 +38,14 @@ public class PlayerController {
 
     // Get a player by its name
     @GetMapping
-    public ResponseEntity<Mono<Player>> getPlayer(@RequestParam PlayerFindRequest playerFindRequest) {
+    public ResponseEntity<Mono<Player>> getPlayer(@RequestBody PlayerFindRequest playerFindRequest) {
         return ResponseEntity.ok(playerService.getPlayer(playerFindRequest));
     }
     
     // Delete a player by its name
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Mono<Void>> deletePlayer(@RequestParam PlayerDeleteRequest playerDeleteRequest) {
+    public ResponseEntity<Mono<Void>> deletePlayer(@RequestBody PlayerDeleteRequest playerDeleteRequest) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(playerService.deletePlayer(playerDeleteRequest));
     }
 
