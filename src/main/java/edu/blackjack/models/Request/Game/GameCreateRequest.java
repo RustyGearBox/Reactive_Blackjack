@@ -13,6 +13,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class GameCreateRequest {
     
-    private String playerName;
+    private String name;
 
 }
