@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import edu.blackjack.models.Game;
 import edu.blackjack.models.Request.Game.GameCreateRequest;
-import edu.blackjack.models.Request.Game.GameDeleteRequest;
-import edu.blackjack.models.Request.Game.GameFindRequest;
-import edu.blackjack.models.Request.Game.GameUpdateRequest;
+import edu.blackjack.models.Request.Game.GamegameDeleteRequest;
+import edu.blackjack.models.Request.Game.GamegameFindRequest;
+import edu.blackjack.models.Request.Game.GamegameUpdateRequest;
 import edu.blackjack.services.GameService;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
@@ -36,19 +36,19 @@ public class GameController {
     }
     
     @GetMapping
-    public ResponseEntity<Mono<Game>> getGameById(@RequestBody GameFindRequest gameFindRequest) {
-        return ResponseEntity.ok(gameService.getGame(gameFindRequest));
+    public ResponseEntity<Mono<Game>> getGameById(@RequestBody GamegameFindRequest gamegameFindRequest) {
+        return ResponseEntity.ok(gameService.getGame(gamegameFindRequest));
     }
 
     @PutMapping
-    public ResponseEntity<Mono<Game>> updateGame(@RequestBody GameUpdateRequest gameUpdateRequest) {
-        return ResponseEntity.ok(gameService.updateGame(gameUpdateRequest));
+    public ResponseEntity<Mono<Game>> updateGame(@RequestBody GamegameUpdateRequest gamegameUpdateRequest) {
+        return ResponseEntity.ok(gameService.updateGame(gamegameUpdateRequest));
     }
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Mono<Void>> deleteGame(@RequestBody GameDeleteRequest gameDeleteRequest) {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(gameService.deleteGame(gameDeleteRequest));
+    public ResponseEntity<Mono<Void>> deleteGame(@RequestBody GamegameDeleteRequest gamegameDeleteRequest) {
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(gameService.deleteGame(gamegameDeleteRequest));
     }
     
 }

@@ -9,9 +9,9 @@ import edu.blackjack.enums.GameState;
 import edu.blackjack.exceptions.customs.GameNotFoundException;
 import edu.blackjack.models.Game;
 import edu.blackjack.models.Request.Game.GameCreateRequest;
-import edu.blackjack.models.Request.Game.GameDeleteRequest;
-import edu.blackjack.models.Request.Game.GameFindRequest;
-import edu.blackjack.models.Request.Game.GameUpdateRequest;
+import edu.blackjack.models.Request.Game.GamegameDeleteRequest;
+import edu.blackjack.models.Request.Game.GamegameFindRequest;
+import edu.blackjack.models.Request.Game.GamegameUpdateRequest;
 import edu.blackjack.repositories.GameRepository;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
@@ -23,11 +23,11 @@ public class GameService {
     private final GameRepository gameRepository;
 
     // Create a new game with the given player name
-    public Mono<Game> createGame(GameCreateRequest createRequest) {
+    public Mono<Game> createGame(GameCreateRequest gameCreateRequest) {
         return gameRepository.save(
             Game.builder()
                 .createdAt(System.currentTimeMillis())
-                .playerName(createRequest.getPlayerName())
+                .playerName(gameCreateRequest.getName())
                 .deck(Game.createDeck())
                 .playerHand(new ArrayList<>())
                 .dealerHand(new ArrayList<>())
@@ -37,18 +37,18 @@ public class GameService {
     }
 
     // Update a game by its ID
-    public Mono<Game> updateGame(GameUpdateRequest updateRequest) {
+    public Mono<Game> updateGame(GamegameUpdateRequest gameUpdateRequest) {
         
         // Get the game by its ID
-        return gameRepository.findByGameId(updateRequest.getGameId())
-            .switchIfEmpty(Mono.error(new GameNotFoundException("GameService/updateGame: Error Game not found with id: " + updateRequest.getGameId())))
+        return gameRepository.findByGameId(gameUpdateRequest.getGameId())
+            .switchIfEmpty(Mono.error(new GameNotFoundException("GameService/updateGame: Error Game not found with id: " + gameUpdateRequest.getGameId())))
             .flatMap(game -> {
                 // If the game is already over, return the game
                 if (game.getState() != GameState.IN_PROGRESS && game.getState() != GameState.NEW) {
                     return Mono.just(game);
                 }
 
-                switch (updateRequest.getPlayType()) {
+                switch (gameUpdateRequest.getPlayType()) {
                     
                     // If the player wants to hit, add a card to the player's hand
                     case HIT:
@@ -69,7 +69,7 @@ public class GameService {
                         break;
 
                     default:
-                        return Mono.error(new IllegalArgumentException("GameService/updateGame: Error Invalid play type: " + updateRequest.getPlayType()));
+                        return Mono.error(new IllegalArgumentException("GameService/updateGame: Error Invalid play type: " + gameUpdateRequest.getPlayType()));
                 }
 
                 // Save the updated game
@@ -78,15 +78,15 @@ public class GameService {
     }
 
     // Get a game by its ID
-    public Mono<Game> getGame(GameFindRequest findRequest) {
-        return gameRepository.findByGameId(findRequest.getGameId())
-        .switchIfEmpty(Mono.error(new GameNotFoundException("GameService/getGame: Error Game not found with id: " + findRequest.getGameId())));
+    public Mono<Game> getGame(GamegameFindRequest gameFindRequest) {
+        return gameRepository.findByGameId(gameFindRequest.getGameId())
+        .switchIfEmpty(Mono.error(new GameNotFoundException("GameService/getGame: Error Game not found with id: " + gameFindRequest.getGameId())));
     }
 
     // Delete a game by its ID
-    public Mono<Void> deleteGame(GameDeleteRequest deleteRequest) {
-        return gameRepository.deleteById(deleteRequest.getGameId())
-        .switchIfEmpty(Mono.error(new GameNotFoundException("GameService/deleteGame: Error Game not found with id: " + deleteRequest.getGameId())));
+    public Mono<Void> deleteGame(GamegameDeleteRequest gameDeleteRequest) {
+        return gameRepository.deleteById(gameDeleteRequest.getGameId())
+        .switchIfEmpty(Mono.error(new GameNotFoundException("GameService/deleteGame: Error Game not found with id: " + gameDeleteRequest.getGameId())));
     }
 
 }
