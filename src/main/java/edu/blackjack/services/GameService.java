@@ -13,6 +13,7 @@ import edu.blackjack.models.Request.Game.GamegameDeleteRequest;
 import edu.blackjack.models.Request.Game.GamegameFindRequest;
 import edu.blackjack.models.Request.Game.GamegameUpdateRequest;
 import edu.blackjack.repositories.GameRepository;
+import edu.blackjack.repositories.PlayerRepository;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
@@ -21,19 +22,24 @@ import reactor.core.publisher.Mono;
 public class GameService {
     
     private final GameRepository gameRepository;
+    private final PlayerRepository playerRepository;
 
     // Create a new game with the given player name
     public Mono<Game> createGame(GameCreateRequest gameCreateRequest) {
-        return gameRepository.save(
-            Game.builder()
-                .createdAt(System.currentTimeMillis())
-                .playerName(gameCreateRequest.getName())
-                .deck(Game.createDeck())
-                .playerHand(new ArrayList<>())
-                .dealerHand(new ArrayList<>())
-                .state(GameState.NEW)
-                .result(GameResult.UNDEFINED)
-                .build());
+        return playerRepository.findByName(gameCreateRequest.getName())
+            .switchIfEmpty(Mono.error(new GameNotFoundException("GameService/createGame: Error Player not found with name: " + gameCreateRequest.getName())))
+            .flatMap(player -> {
+                Game game = Game.builder()
+                    .createdAt(System.currentTimeMillis())
+                    .playerName(gameCreateRequest.getName())
+                    .deck(Game.createDeck())
+                    .playerHand(new ArrayList<>())
+                    .dealerHand(new ArrayList<>())
+                    .state(GameState.NEW)
+                    .result(GameResult.UNDEFINED)
+                    .build();
+                return gameRepository.save(game);
+            });
     }
 
     // Update a game by its ID
