@@ -36,19 +36,19 @@ public class GameController {
     }
     
     @GetMapping
-    public ResponseEntity<Mono<Game>> getGameById(@RequestBody GamegameFindRequest gamegameFindRequest) {
-        return ResponseEntity.ok(gameService.getGame(gamegameFindRequest));
+    public ResponseEntity<Mono<Game>> getGameById(@RequestBody GamegameFindRequest gameFindRequest) {
+        return ResponseEntity.ok(gameService.getGame(gameFindRequest));
     }
 
     @PutMapping
-    public ResponseEntity<Mono<Game>> updateGame(@RequestBody GamegameUpdateRequest gamegameUpdateRequest) {
-        return ResponseEntity.ok(gameService.updateGame(gamegameUpdateRequest));
+    public ResponseEntity<Mono<Game>> updateGame(@RequestBody GamegameUpdateRequest gameUpdateRequest) {
+        return ResponseEntity.ok(gameService.updateGame(gameUpdateRequest));
     }
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Mono<Void>> deleteGame(@RequestBody GamegameDeleteRequest gamegameDeleteRequest) {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(gameService.deleteGame(gamegameDeleteRequest));
+    public ResponseEntity<Mono<Void>> deleteGame(@RequestBody GamegameDeleteRequest gameDeleteRequest) {
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(gameService.deleteGame(gameDeleteRequest));
     }
     
 }
