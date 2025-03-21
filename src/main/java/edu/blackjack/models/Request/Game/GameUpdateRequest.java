@@ -12,7 +12,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GamegameUpdateRequest {
+public class GameUpdateRequest {
     
     private String gameId;
     private PlayType playType;

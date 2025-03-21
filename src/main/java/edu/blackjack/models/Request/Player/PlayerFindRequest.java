@@ -1,4 +1,4 @@
-package edu.blackjack.models.Request.Game;
+package edu.blackjack.models.Request.Player;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +11,8 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GamegameDeleteRequest {
+public class PlayerFindRequest {
     
-    private String gameId;
+    private String name;
 
 }

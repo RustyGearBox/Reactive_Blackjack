@@ -4,9 +4,9 @@ import org.springframework.stereotype.Service;
 
 import edu.blackjack.models.Player;
 import edu.blackjack.models.Request.Player.PlayerCreateRequest;
-import edu.blackjack.models.Request.Player.PlayergameDeleteRequest;
-import edu.blackjack.models.Request.Player.PlayergameFindRequest;
-import edu.blackjack.models.Request.Player.PlayergameUpdateRequest;
+import edu.blackjack.models.Request.Player.PlayerDeleteRequest;
+import edu.blackjack.models.Request.Player.PlayerFindRequest;
+import edu.blackjack.models.Request.Player.PlayerUpdateRequest;
 import edu.blackjack.repositories.PlayerRepository;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
@@ -26,19 +26,19 @@ public class PlayerService {
     }
 
     // Delete a player by its name
-    public Mono<Void> deletePlayer(PlayergameDeleteRequest playergameDeleteRequest) {
-        return playerRepository.deleteByName(playergameDeleteRequest.getName());
+    public Mono<Void> deletePlayer(PlayerDeleteRequest playerDeleteRequest) {
+        return playerRepository.deleteByName(playerDeleteRequest.getName());
     }
 
     // Get a player by its name
-    public Mono<Player> getPlayer(PlayergameFindRequest playergameFindRequest) {
-        return playerRepository.findByName(playergameFindRequest.getName());
+    public Mono<Player> getPlayer(PlayerFindRequest playerFindRequest) {
+        return playerRepository.findByName(playerFindRequest.getName());
     }
 
     // Update a player by its name
-    public Mono<Player> updatePlayer(PlayergameUpdateRequest playergameUpdateRequest) {
-        Player player = playerRepository.findByName(playergameUpdateRequest.getName()).block();
-        player.setName(playergameUpdateRequest.getNewName());
+    public Mono<Player> updatePlayer(PlayerUpdateRequest playerUpdateRequest) {
+        Player player = playerRepository.findByName(playerUpdateRequest.getName()).block();
+        player.setName(playerUpdateRequest.getNewName());
         return playerRepository.save(player);
     }
 

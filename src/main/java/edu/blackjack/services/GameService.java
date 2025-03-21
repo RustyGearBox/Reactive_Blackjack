@@ -9,9 +9,9 @@ import edu.blackjack.enums.GameState;
 import edu.blackjack.exceptions.customs.GameNotFoundException;
 import edu.blackjack.models.Game;
 import edu.blackjack.models.Request.Game.GameCreateRequest;
-import edu.blackjack.models.Request.Game.GamegameDeleteRequest;
-import edu.blackjack.models.Request.Game.GamegameFindRequest;
-import edu.blackjack.models.Request.Game.GamegameUpdateRequest;
+import edu.blackjack.models.Request.Game.GameDeleteRequest;
+import edu.blackjack.models.Request.Game.GameFindRequest;
+import edu.blackjack.models.Request.Game.GameUpdateRequest;
 import edu.blackjack.repositories.GameRepository;
 import edu.blackjack.repositories.PlayerRepository;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +43,7 @@ public class GameService {
     }
 
     // Update a game by its ID
-    public Mono<Game> updateGame(GamegameUpdateRequest gameUpdateRequest) {
+    public Mono<Game> updateGame(GameUpdateRequest gameUpdateRequest) {
         
         // Get the game by its ID
         return gameRepository.findByGameId(gameUpdateRequest.getGameId())
@@ -84,13 +84,13 @@ public class GameService {
     }
 
     // Get a game by its ID
-    public Mono<Game> getGame(GamegameFindRequest gameFindRequest) {
+    public Mono<Game> getGame(GameFindRequest gameFindRequest) {
         return gameRepository.findByGameId(gameFindRequest.getGameId())
         .switchIfEmpty(Mono.error(new GameNotFoundException("GameService/getGame: Error Game not found with id: " + gameFindRequest.getGameId())));
     }
 
     // Delete a game by its ID
-    public Mono<Void> deleteGame(GamegameDeleteRequest gameDeleteRequest) {
+    public Mono<Void> deleteGame(GameDeleteRequest gameDeleteRequest) {
         return gameRepository.deleteById(gameDeleteRequest.getGameId())
         .switchIfEmpty(Mono.error(new GameNotFoundException("GameService/deleteGame: Error Game not found with id: " + gameDeleteRequest.getGameId())));
     }
