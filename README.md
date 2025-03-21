@@ -66,7 +66,7 @@ This project is a backend implementation of a reactive Blackjack game API. It al
      - `POST /player`: Create a new player.
      - `GET /player/all`: Retrieve all players.
      - `POST /game`: Create a new game.
-     - 
+     
 ## Future Enhancements
 
 - Add testing
