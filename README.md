@@ -66,16 +66,10 @@ This project is a backend implementation of a reactive Blackjack game API. It al
      - `POST /player`: Create a new player.
      - `GET /player/all`: Retrieve all players.
      - `POST /game`: Create a new game.
-
-## Testing
-
-Run the tests using:
-```bash
-./gradlew test
-```
-
+     - 
 ## Future Enhancements
 
+- Add testing
 - Add authentication and authorization.
 - Implement advanced game rules.
 - Add support for multiplayer games.
