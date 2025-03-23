@@ -2,6 +2,7 @@ package edu.blackjack.services;
 
 import org.springframework.stereotype.Service;
 
+import edu.blackjack.exceptions.customs.PlayerNotFoundException;
 import edu.blackjack.models.Player;
 import edu.blackjack.models.Request.Player.PlayerCreateRequest;
 import edu.blackjack.models.Request.Player.PlayerDeleteRequest;
@@ -37,9 +38,12 @@ public class PlayerService {
 
     // Update a player by its name
     public Mono<Player> updatePlayer(PlayerUpdateRequest playerUpdateRequest) {
-        Player player = playerRepository.findByName(playerUpdateRequest.getName()).block();
-        player.setName(playerUpdateRequest.getNewName());
-        return playerRepository.save(player);
+        return playerRepository.findByName(playerUpdateRequest.getName())
+        .switchIfEmpty(Mono.error(new PlayerNotFoundException("PlayerService/updatePlayer: The player with the name " + playerUpdateRequest.getName() + " was not found.")))
+        .flatMap(foundPlayer -> {
+            foundPlayer.setName(playerUpdateRequest.getNewName());
+            return playerRepository.save(foundPlayer);
+        });
     }
 
     // Get all players
