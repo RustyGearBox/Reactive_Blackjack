@@ -23,17 +23,20 @@ public class PlayerService {
     public Mono<Player> createPlayer(PlayerCreateRequest playerCreateRequest) {
         return playerRepository.save(Player.builder()
             .name(playerCreateRequest.getName())
-            .build());
+            .build())
+        .switchIfEmpty(Mono.error(new PlayerNotFoundException("PlayerService/createPlayer: The player with the name " + playerCreateRequest.getName() + " was not created.")));
     }
 
     // Delete a player by its name
     public Mono<Void> deletePlayer(PlayerDeleteRequest playerDeleteRequest) {
-        return playerRepository.deleteByName(playerDeleteRequest.getName());
+        return playerRepository.deleteByName(playerDeleteRequest.getName())
+        .switchIfEmpty(Mono.error(new PlayerNotFoundException("PlayerService/deletePlayer: The player with the name " + playerDeleteRequest.getName() + " was not found.")));
     }
 
     // Get a player by its name
     public Mono<Player> getPlayer(PlayerFindRequest playerFindRequest) {
-        return playerRepository.findByName(playerFindRequest.getName());
+        return playerRepository.findByName(playerFindRequest.getName())
+        .switchIfEmpty(Mono.error(new PlayerNotFoundException("PlayerService/getPlayer: The player with the name " + playerFindRequest.getName() + " was not found.")));
     }
 
     // Update a player by its name
@@ -48,7 +51,8 @@ public class PlayerService {
 
     // Get all players
     public Flux<Player> getPlayers() {
-        return playerRepository.findAll();
+        return playerRepository.findAll()
+        .switchIfEmpty(Mono.error(new PlayerNotFoundException("PlayerService/getPlayers: There are no players.")));
     }
 
 }
