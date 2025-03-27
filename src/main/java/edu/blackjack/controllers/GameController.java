@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.blackjack.models.Game;
 import edu.blackjack.models.Request.Game.GameCreateRequest;
 import edu.blackjack.models.Request.Game.GameDeleteRequest;
-import edu.blackjack.models.Request.Game.GameFindRequest;
 import edu.blackjack.models.Request.Game.GameUpdateRequest;
 import edu.blackjack.services.GameService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,9 +35,9 @@ public class GameController {
         return ResponseEntity.status(HttpStatus.CREATED).body(gameService.createGame(gameCreateRequest));
     }
     
-    @GetMapping
-    public ResponseEntity<Mono<Game>> getGameById(@RequestBody GameFindRequest gameFindRequest) {
-        return ResponseEntity.ok(gameService.getGame(gameFindRequest));
+    @GetMapping("/{gameId}")
+    public ResponseEntity<Mono<Game>> getGameById(@PathVariable("gameId") String gameId) {
+        return ResponseEntity.ok(gameService.getGame(gameId));
     }
 
     @PutMapping

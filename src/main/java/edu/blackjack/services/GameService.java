@@ -10,7 +10,6 @@ import edu.blackjack.exceptions.customs.GameNotFoundException;
 import edu.blackjack.models.Game;
 import edu.blackjack.models.Request.Game.GameCreateRequest;
 import edu.blackjack.models.Request.Game.GameDeleteRequest;
-import edu.blackjack.models.Request.Game.GameFindRequest;
 import edu.blackjack.models.Request.Game.GameUpdateRequest;
 import edu.blackjack.repositories.GameRepository;
 import edu.blackjack.repositories.PlayerRepository;
@@ -84,9 +83,9 @@ public class GameService {
     }
 
     // Get a game by its ID
-    public Mono<Game> getGame(GameFindRequest gameFindRequest) {
-        return gameRepository.findByGameId(gameFindRequest.getGameId())
-        .switchIfEmpty(Mono.error(new GameNotFoundException("GameService/getGame: Error Game not found with id: " + gameFindRequest.getGameId())));
+    public Mono<Game> getGame(String gameId) {
+        return gameRepository.findByGameId(gameId)
+        .switchIfEmpty(Mono.error(new GameNotFoundException("GameService/getGame: Error Game not found with id: " + gameId)));
     }
 
     // Delete a game by its ID

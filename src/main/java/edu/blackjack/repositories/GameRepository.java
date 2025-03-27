@@ -8,6 +8,6 @@ import edu.blackjack.models.Game;
 import reactor.core.publisher.Mono;
 
 @Repository
-public interface GameRepository extends ReactiveMongoRepository<Game, String> {
-    Mono<Game> findByGameId(String gameId);
+public interface GameRepository extends ReactiveMongoRepository<Game, String> {     
+        Mono<Game> findByGameId(String gameId);      
 }
