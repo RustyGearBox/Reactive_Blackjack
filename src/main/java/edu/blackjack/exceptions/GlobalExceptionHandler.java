@@ -5,13 +5,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import edu.blackjack.exceptions.customs.GameAlreadyFinishedException;
 import edu.blackjack.exceptions.customs.GameFinishedException;
 import edu.blackjack.exceptions.customs.GameNotFoundException;
 import edu.blackjack.exceptions.customs.GameResultNotFoundException;
+import edu.blackjack.exceptions.customs.PlayerAlreadyExistsException;
 import edu.blackjack.exceptions.customs.PlayerNotFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(GameAlreadyFinishedException.class)
+    public ResponseEntity<String> handleGameAlreadyFinishedException(GameAlreadyFinishedException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(PlayerAlreadyExistsException.class)
+    public ResponseEntity<String> handlePlayerAlreadyExistsException(PlayerAlreadyExistsException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
 
     @ExceptionHandler(PlayerNotFoundException.class)
     public ResponseEntity<String> handlePlayerNotFoundException(PlayerNotFoundException ex) {

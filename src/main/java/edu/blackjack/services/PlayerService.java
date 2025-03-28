@@ -2,6 +2,7 @@ package edu.blackjack.services;
 
 import org.springframework.stereotype.Service;
 
+import edu.blackjack.exceptions.customs.PlayerAlreadyExistsException;
 import edu.blackjack.exceptions.customs.PlayerNotFoundException;
 import edu.blackjack.models.Player;
 import edu.blackjack.models.Request.Player.PlayerCreateRequest;
@@ -21,10 +22,9 @@ public class PlayerService {
 
     // Create a new player with the given name
     public Mono<Player> createPlayer(PlayerCreateRequest playerCreateRequest) {
-        return playerRepository.save(Player.builder()
-            .name(playerCreateRequest.getName())
-            .build())
-        .switchIfEmpty(Mono.error(new PlayerNotFoundException("PlayerService/createPlayer: The player with the name " + playerCreateRequest.getName() + " was not created.")));
+        return playerRepository.findByName(playerCreateRequest.getName())
+            .switchIfEmpty(Mono.defer(() -> playerRepository.save(Player.builder().name(playerCreateRequest.getName()).build())))
+            .flatMap(existingPlayer -> Mono.error(new PlayerAlreadyExistsException("PlayerService/createPlayer: The player with the name " + playerCreateRequest.getName() + " already exists.")));
     }
 
     // Delete a player by its name
