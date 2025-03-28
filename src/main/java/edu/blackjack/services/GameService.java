@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import edu.blackjack.enums.GameResult;
 import edu.blackjack.enums.GameState;
+import edu.blackjack.exceptions.customs.GameAlreadyFinishedException;
 import edu.blackjack.exceptions.customs.GameNotFoundException;
 import edu.blackjack.models.Game;
 import edu.blackjack.models.Request.Game.GameCreateRequest;
@@ -44,6 +45,10 @@ public class GameService {
     // Update a game by its ID
     public Mono<Game> updateGame(GameUpdateRequest gameUpdateRequest) {
         
+        if (gameUpdateRequest.getState() == GameState.FINISHED) {
+            return Mono.error(new GameAlreadyFinishedException("GameService/updateGame: Error Game is already finished."));
+        }
+
         // Get the game by its ID
         return gameRepository.findByGameId(gameUpdateRequest.getGameId())
             .switchIfEmpty(Mono.error(new GameNotFoundException("GameService/updateGame: Error Game not found with id: " + gameUpdateRequest.getGameId())))

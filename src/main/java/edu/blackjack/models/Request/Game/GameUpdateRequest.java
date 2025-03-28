@@ -1,5 +1,6 @@
 package edu.blackjack.models.Request.Game;
 
+import edu.blackjack.enums.GameState;
 import edu.blackjack.enums.PlayType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,5 +17,6 @@ public class GameUpdateRequest {
     
     private String gameId;
     private PlayType playType;
+    private GameState state;
 
 }
