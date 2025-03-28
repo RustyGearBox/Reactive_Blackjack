@@ -76,6 +76,7 @@ public class Game {
         return switch (Integer.compare(playerHandValue, dealerHandValue)) {
             case 1 -> playerHandValue > 21 ? GameResult.DEFEAT : GameResult.VICTORY;
             case -1 -> dealerHandValue > 21 ? GameResult.VICTORY : GameResult.DEFEAT;
+            case 0 -> playerHandValue == 21 && dealerHandValue == 21 ? GameResult.DRAW : GameResult.DRAW;
             default -> GameResult.DRAW;
         };
     }
