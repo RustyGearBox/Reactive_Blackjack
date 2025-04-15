@@ -1,5 +1,6 @@
 package edu.blackjack.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.blackjack.exceptions.customs.PlayerAlreadyExistsException;
@@ -15,7 +16,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PlayerService {
     
     private final PlayerRepository playerRepository;

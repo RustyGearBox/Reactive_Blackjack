@@ -2,6 +2,7 @@ package edu.blackjack.services;
 
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.blackjack.enums.GameResult;
@@ -18,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
 @Service
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class GameService {
     
     private final GameRepository gameRepository;

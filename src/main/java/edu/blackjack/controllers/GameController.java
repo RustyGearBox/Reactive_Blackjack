@@ -2,6 +2,7 @@ package edu.blackjack.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.blackjack.models.Game;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RequestMapping("/game")
 public class GameController {
  
