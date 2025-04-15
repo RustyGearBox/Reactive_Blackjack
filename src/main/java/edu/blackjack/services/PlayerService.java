@@ -24,25 +24,29 @@ public class PlayerService {
     public Mono<Player> createPlayer(PlayerCreateRequest playerCreateRequest) {
         return playerRepository.findByName(playerCreateRequest.getName())
             .switchIfEmpty(Mono.defer(() -> playerRepository.save(Player.builder().name(playerCreateRequest.getName()).build())))
-            .flatMap(existingPlayer -> Mono.error(new PlayerAlreadyExistsException("PlayerService/createPlayer: The player with the name " + playerCreateRequest.getName() + " already exists.")));
+            .flatMap(existingPlayer -> Mono.error(new PlayerAlreadyExistsException(
+                "PlayerService/createPlayer: The player with the name " + playerCreateRequest.getName() + " already exists.")));
     }
 
     // Delete a player by its name
     public Mono<Void> deletePlayer(PlayerDeleteRequest playerDeleteRequest) {
         return playerRepository.deleteByName(playerDeleteRequest.getName())
-        .switchIfEmpty(Mono.error(new PlayerNotFoundException("PlayerService/deletePlayer: The player with the name " + playerDeleteRequest.getName() + " was not found.")));
+        .switchIfEmpty(Mono.error(new PlayerNotFoundException(
+            "PlayerService/deletePlayer: The player with the name " + playerDeleteRequest.getName() + " was not found.")));
     }
 
     // Get a player by its name
     public Mono<Player> getPlayer(PlayerFindRequest playerFindRequest) {
         return playerRepository.findByName(playerFindRequest.getName())
-        .switchIfEmpty(Mono.error(new PlayerNotFoundException("PlayerService/getPlayer: The player with the name " + playerFindRequest.getName() + " was not found.")));
+        .switchIfEmpty(Mono.error(new PlayerNotFoundException(
+            "PlayerService/getPlayer: The player with the name " + playerFindRequest.getName() + " was not found.")));
     }
 
     // Update a player by its name
     public Mono<Player> updatePlayer(PlayerUpdateRequest playerUpdateRequest) {
         return playerRepository.findByName(playerUpdateRequest.getName())
-        .switchIfEmpty(Mono.error(new PlayerNotFoundException("PlayerService/updatePlayer: The player with the name " + playerUpdateRequest.getName() + " was not found.")))
+        .switchIfEmpty(Mono.error(new PlayerNotFoundException(
+            "PlayerService/updatePlayer: The player with the name " + playerUpdateRequest.getName() + " was not found.")))
         .flatMap(foundPlayer -> {
             foundPlayer.setName(playerUpdateRequest.getNewName());
             return playerRepository.save(foundPlayer);
@@ -52,7 +56,8 @@ public class PlayerService {
     // Get all players
     public Flux<Player> getPlayers() {
         return playerRepository.findAll()
-        .switchIfEmpty(Mono.error(new PlayerNotFoundException("PlayerService/getPlayers: There are no players.")));
+        .switchIfEmpty(Mono.error(new PlayerNotFoundException(
+            "PlayerService/getPlayers: There are no players.")));
     }
 
 }
