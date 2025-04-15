@@ -22,7 +22,7 @@ public class Player {
     private String id;
     private String name;
     @Builder.Default
-    private int gamesPlayed = 0;
+    private int games = 0;
     @Builder.Default
     private int victories = 0;
     @Builder.Default
@@ -34,7 +34,7 @@ public class Player {
     
     //Adds a game result to the player's statistics
     public void addGameResult(Game game) {
-        gamesPlayed++;
+        games++;
         switch (game.getResult()) {
             case VICTORY -> victories++;
             case DEFEAT -> defeats++;
@@ -52,7 +52,7 @@ public class Player {
 
     //Resets the player's statistics
     public void resetStats() {
-        gamesPlayed = 0;
+        games = 0;
         victories = 0;
         defeats = 0;
         draws = 0;
