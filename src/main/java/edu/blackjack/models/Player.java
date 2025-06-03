@@ -39,9 +39,7 @@ public class Player {
             case VICTORY -> victories++;
             case DEFEAT -> defeats++;
             case DRAW -> draws++;
-            case UNDEFINED -> {
-            throw new GameResultNotFoundException("Game result is undefined.");
-            }
+            case UNDEFINED -> throw new GameResultNotFoundException("Game result is undefined.");
         }
     }
 
