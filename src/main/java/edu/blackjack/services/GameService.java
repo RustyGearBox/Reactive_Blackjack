@@ -2,7 +2,6 @@ package edu.blackjack.services;
 
 import java.util.ArrayList;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.blackjack.enums.GameResult;
@@ -19,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class GameService {
     
     private final GameRepository gameRepository;
@@ -39,6 +38,10 @@ public class GameService {
                     .state(GameState.NEW)
                     .result(GameResult.UNDEFINED)
                     .build();
+
+                // Deal two cards to the player and one card to the dealer
+                game.dealInitialCards();
+
                 return gameRepository.save(game);
             });
     }

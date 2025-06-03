@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import edu.blackjack.enums.Figures;
@@ -22,7 +21,7 @@ import lombok.Setter;
 @Setter
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor(onConstructor=@__({@PersistenceConstructor}))
+@AllArgsConstructor
 @Document(collection = "games")
 public class Game {
     
@@ -51,6 +50,16 @@ public class Game {
     //Deals a card from the deck, deleting it from the deck
     public Card dealCard(List<Card> deck) {
         return deck.remove(0);
+    }
+
+    //Deals two cards to the player and one card to the dealer
+    public void dealInitialCards() {
+        if (deck.size() < 3) {
+            throw new IllegalStateException("Not enough cards in the deck to deal initial cards.");
+        }
+        playerHand.add(dealCard(deck)); // Player gets two cards
+        playerHand.add(dealCard(deck));
+        dealerHand.add(dealCard(deck)); // Dealer gets one card
     }
 
     //Calculates the value of a hand
