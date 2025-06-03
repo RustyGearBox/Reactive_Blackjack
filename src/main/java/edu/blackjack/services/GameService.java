@@ -58,29 +58,26 @@ public class GameService {
                 if (game.getState() != GameState.IN_PROGRESS && game.getState() != GameState.NEW) {
                     return Mono.just(game);
                 }
-
-                switch (gameUpdateRequest.getPlayType()) {
-                    
-                    // If the player wants to hit, add a card to the player's hand
-                    case HIT:
-                        game.getPlayerHand().add(game.getDeck().remove(0));
-                        if (game.getHandValue(game.getPlayerHand()) > 21) {
-                            game.setState(GameState.FINISHED);
-                            game.setResult(GameResult.DEFEAT);
-                        }
-                        break;
-
+                    switch (gameUpdateRequest.getPlayType()) {
+                        // If the player wants to hit, add a card to the player's hand
+                        case HIT -> {
+                            game.getPlayerHand().add(game.getDeck().remove(0));
+                            if (game.getHandValue(game.getPlayerHand()) > 21) {
+                                game.setState(GameState.FINISHED);
+                                game.setResult(GameResult.DEFEAT);
+                            }
+                    }
                     // If the player wants to stand, add cards to the dealer's hand until the dealer's hand value is 17 or higher
-                    case STAND:
-                        while (game.getHandValue(game.getDealerHand()) < 17) {
-                            game.getDealerHand().add(game.getDeck().remove(0));
-                        }
-                        game.setResult(game.getWinner(game.getPlayerHand(), game.getDealerHand()));
-                        game.setState(GameState.FINISHED);
-                        break;
-
-                    default:
-                        return Mono.error(new IllegalArgumentException("GameService/updateGame: Error Invalid play type: " + gameUpdateRequest.getPlayType()));
+                        case STAND -> {
+                            while (game.getHandValue(game.getDealerHand()) < 17) {
+                                game.getDealerHand().add(game.getDeck().remove(0));
+                            }
+                            game.setResult(game.getWinner(game.getPlayerHand(), game.getDealerHand()));
+                            game.setState(GameState.FINISHED);
+                    }
+                        default -> {
+                            return Mono.error(new IllegalArgumentException("GameService/updateGame: Error Invalid play type: " + gameUpdateRequest.getPlayType()));
+                    }
                 }
 
                 // Save the updated game
