@@ -64,7 +64,7 @@ public class GameService {
                     switch (gameUpdateRequest.getPlayType()) {
                         // If the player wants to hit, add a card to the player's hand
                         case HIT -> {
-                            game.getPlayerHand().add(game.getDeck().remove(0));
+                            game.getPlayerHand().add(game.dealCard(game.getDeck()));
                             if (game.getHandValue(game.getPlayerHand()) > 21) {
                                 game.setState(GameState.FINISHED);
                                 game.setResult(GameResult.DEFEAT);
@@ -73,7 +73,7 @@ public class GameService {
                     // If the player wants to stand, add cards to the dealer's hand until the dealer's hand value is 17 or higher
                         case STAND -> {
                             while (game.getHandValue(game.getDealerHand()) < 17) {
-                                game.getDealerHand().add(game.getDeck().remove(0));
+                                game.getDealerHand().add(game.dealCard(game.getDeck()));
                             }
                             game.setResult(game.getWinner(game.getPlayerHand(), game.getDealerHand()));
                             game.setState(GameState.FINISHED);
