@@ -1,6 +1,5 @@
 package edu.blackjack.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.blackjack.exceptions.customs.PlayerAlreadyExistsException;
@@ -16,7 +15,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class PlayerService {
     
     private final PlayerRepository playerRepository;
@@ -26,7 +25,7 @@ public class PlayerService {
         return playerRepository.findByName(playerCreateRequest.getName())
             .flatMap(existingPlayer -> Mono.<Player>error(new PlayerAlreadyExistsException(
                 "PlayerService/createPlayer: The player with the name " + playerCreateRequest.getName() + " already exists.")))
-            .switchIfEmpty(Mono.defer(() -> playerRepository.save(Player.builder().name(playerCreateRequest.getName()).build())));
+            .switchIfEmpty(playerRepository.save(Player.builder().name(playerCreateRequest.getName()).build()));
     }
 
     // Delete a player by its name
