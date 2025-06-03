@@ -11,5 +11,7 @@ import reactor.core.publisher.Mono;
 public interface PlayerRepository extends R2dbcRepository<Player, String> {
     Mono<Player> findByName(String name);
     Mono<Void> deleteByName(String name);
+    
+    @Override
     Flux<Player> findAll();
 }
