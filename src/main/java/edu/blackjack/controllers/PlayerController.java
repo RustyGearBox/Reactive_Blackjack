@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import edu.blackjack.models.Request.Player.PlayerDeleteRequest;
 import edu.blackjack.models.Request.Player.PlayerFindRequest;
 import edu.blackjack.models.Request.Player.PlayerUpdateRequest;
 import edu.blackjack.services.PlayerService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -25,6 +27,7 @@ import reactor.core.publisher.Mono;
 @Controller
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RequestMapping("/player")
+@Validated
 public class PlayerController {
     
     private final PlayerService playerService;
@@ -32,7 +35,7 @@ public class PlayerController {
     // Create a new player with the given name
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Mono<Player>> createPlayer(@RequestBody PlayerCreateRequest playerCreateRequest) {
+    public ResponseEntity<Mono<Player>> createPlayer(@RequestBody @Valid PlayerCreateRequest playerCreateRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(playerService.createPlayer(playerCreateRequest));
     }
 
